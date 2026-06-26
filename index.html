@@ -14,13 +14,29 @@
     <div class="ornament">❧ ⚔ ❧</div>
   </header>
 
-  <nav class="day-nav" id="day-nav"></nav>
+  <div class="layout">
 
-  <section class="party" id="party"></section>
+    <aside class="side side-left">
+      <details class="panel" id="nav-panel" open>
+        <summary class="panel-title">Дни</summary>
+        <nav class="day-nav" id="day-nav"></nav>
+      </details>
+    </aside>
 
-  <section class="quests" id="quests"></section>
+    <main class="timeline" id="timeline"></main>
 
-  <main class="timeline" id="timeline"></main>
+    <aside class="side side-right">
+      <details class="panel" id="party-panel">
+        <summary class="panel-title">Отряд</summary>
+        <div id="party"></div>
+      </details>
+      <details class="panel" id="quests-panel">
+        <summary class="panel-title">Журнал заданий</summary>
+        <div id="quests"></div>
+      </details>
+    </aside>
+
+  </div>
 
   <footer>Записано хранителем хроник • <span id="year"></span></footer>
 

@@ -59,53 +59,77 @@ body {
   margin-top: 18px;
 }
 
-/* ===== Навигация по дням (липкая) ===== */
-.day-nav {
-  position: sticky;
-  top: 0;
-  z-index: 30;
+/* ===== Раскладка: слева дни, центр сюжет, справа отряд+тайны ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr) 320px;
+  grid-template-areas: "left center right";
+  gap: 28px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 22px;
+  align-items: start;
+}
+.side-left   { grid-area: left; }
+.timeline    { grid-area: center; }
+.side-right  { grid-area: right; }
+
+/* ===== Панели (Дни / Отряд / Тайны) ===== */
+.panel {
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, rgba(201,161,74,.05), rgba(0,0,0,.18));
+  border: 1px solid rgba(138,109,47,.45);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.panel-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.panel-title::-webkit-details-marker { display: none; }
+.panel-title::after {
+  content: "▾";
+  float: right;
+  color: var(--gold-soft);
+  transition: transform .2s;
+}
+.panel[open] .panel-title::after { transform: rotate(180deg); }
+.panel > div,
+.panel > nav { padding: 0 12px 14px; }
+
+/* ===== Навигация по дням (вертикальный список) ===== */
+.day-nav { display: flex; flex-direction: column; gap: 6px; }
+.day-chip {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 16px;
-  overflow-x: auto;
-  background: rgba(20, 16, 12, .92);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--gold-soft);
-  box-shadow: 0 4px 14px rgba(0,0,0,.4);
-  scrollbar-width: thin;
-}
-.day-nav-label {
-  flex: 0 0 auto;
-  font-family: 'Cinzel', serif;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold-soft);
-}
-.day-chip {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px 5px 6px;
-  border: 1px solid rgba(138,109,47,.5);
-  border-radius: 20px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
   color: var(--paper-2);
   text-decoration: none;
   transition: border-color .15s, color .15s, background .15s;
 }
-.day-chip:hover {
-  border-color: var(--gold);
+.day-chip:hover { background: rgba(201,161,74,.1); color: var(--gold); }
+.day-chip.active {
+  background: rgba(201,161,74,.14);
+  border-color: var(--gold-soft);
   color: var(--gold);
-  background: rgba(201,161,74,.1);
 }
 .day-chip-n {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--accent);
   color: #fff;
@@ -113,48 +137,45 @@ body {
   font-weight: 700;
   font-size: 13px;
 }
-.day-chip-t {
-  font-size: 14px;
-  white-space: nowrap;
-}
-@media (max-width: 620px) {
-  .day-chip-t { display: none; }       /* на телефоне — только номера */
-  .day-chip { padding: 5px; border-radius: 50%; }
+.day-chip.active .day-chip-n { box-shadow: 0 0 0 2px var(--gold); }
+.day-chip-t { font-size: 14px; line-height: 1.25; }
+
+.entry { scroll-margin-top: 18px; }
+
+/* ===== ПК: сайдбары липкие, панели всегда раскрыты ===== */
+@media (min-width: 1000px) {
+  .side {
+    position: sticky;
+    top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow: auto;
+    scrollbar-width: thin;
+  }
+  .panel-title { cursor: default; pointer-events: none; }
+  .panel-title::after { display: none; }
+  .panel > div,
+  .panel > nav { display: block !important; }   /* показываем тело даже без [open] */
 }
 
-/* отступ якоря, чтобы липкая панель не накрывала заголовок дня */
-.entry { scroll-margin-top: 64px; }
+/* ===== Мобила/планшет: одна колонка, панели сворачиваются ===== */
+@media (max-width: 999px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "left" "right" "center";
+    gap: 16px;
+    padding: 0 14px;
+  }
+  .side { margin-top: 16px; }
+}
 
 /* ===== Журнал заданий ===== */
-.quests {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px 0;
-}
-.quests-title {
-  font-family: 'Cinzel', serif;
-  text-align: center;
-  color: var(--gold);
-  font-size: 26px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin: 0 0 24px;
-}
-.quests-title::after {
-  content: "";
-  display: block;
-  width: 90px;
-  height: 2px;
-  margin: 12px auto 0;
-  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
-}
 .quests-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 .quest-card {
-  padding: 16px 18px;
+  padding: 14px 16px;
   background: linear-gradient(180deg, rgba(201,161,74,.06), rgba(0,0,0,.20));
   border: 1px solid rgba(138,109,47,.55);
   border-left: 3px solid var(--accent);
@@ -200,38 +221,16 @@ body {
 }
 
 /* ===== Отряд ===== */
-.party {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 44px 20px 0;
-}
-.party-title {
-  font-family: 'Cinzel', serif;
-  text-align: center;
-  color: var(--gold);
-  font-size: 26px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin: 0 0 26px;
-}
-.party-title::after {
-  content: "";
-  display: block;
-  width: 90px;
-  height: 2px;
-  margin: 12px auto 0;
-  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
-}
 .party-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 14px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 .hero-card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 18px;
+  gap: 14px;
+  padding: 14px 16px;
   background: linear-gradient(180deg, rgba(201,161,74,.06), rgba(0,0,0,.20));
   border: 1px solid rgba(138,109,47,.55);
   border-radius: 10px;
@@ -305,9 +304,11 @@ body {
 
 /* ===== Лента ===== */
 .timeline {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 50px 20px 90px;
+  min-width: 0;
+  padding: 30px 0 80px;
+}
+@media (max-width: 999px) {
+  .timeline { padding: 10px 0 60px; }
 }
 
 /* ===== Карточка-запись (пергамент) ===== */

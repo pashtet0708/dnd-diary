@@ -112,7 +112,7 @@ function renderParty() {
         <div class="hero-icon" title="${escapeHtml(m.cls)}">${classIcon(m.cls)}</div>
       </div>`;
   }).join('');
-  el.innerHTML = `<h3 class="party-title">Отряд</h3><div class="party-grid">${cards}</div>`;
+  el.innerHTML = `<div class="party-grid">${cards}</div>`;
 }
 renderParty();
 
@@ -134,8 +134,7 @@ function renderQuests() {
         <div class="quest-hint">${escapeHtml(q.hint || '')}</div>
       </div>`;
   }).join('');
-  el.innerHTML = `<h3 class="quests-title">Журнал заданий</h3>` +
-                 `<div class="quests-grid">${cards}</div>`;
+  el.innerHTML = `<div class="quests-grid">${cards}</div>`;
 }
 renderQuests();
 
@@ -155,9 +154,45 @@ function renderDayNav() {
     `<span class="day-chip-n">${e.day}</span>` +
     `<span class="day-chip-t">${escapeHtml(e.title)}</span></a>`
   ).join('');
-  el.innerHTML = `<span class="day-nav-label">Дни:</span>${links}`;
+  el.innerHTML = links;
 }
 renderDayNav();
+
+/* ===== Подсветка текущего дня в навигации (scrollspy) ===== */
+function initScrollSpy() {
+  const chips = [...document.querySelectorAll('.day-chip')];
+  if (!chips.length) return;
+  const byId = {};
+  chips.forEach(c => { byId[c.getAttribute('href')] = c; });
+  const setActive = el => {
+    chips.forEach(c => c.classList.remove('active'));
+    const c = byId['#' + el.id];
+    if (c) {
+      c.classList.add('active');
+      // держим активный чип в зоне видимости узкого списка
+      if (c.scrollIntoView) c.scrollIntoView({ block: 'nearest' });
+    }
+  };
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) setActive(en.target); });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  document.querySelectorAll('.entry').forEach(e => obs.observe(e));
+}
+initScrollSpy();
+
+/* мобильные панели Отряд/Тайны закрыты по умолчанию, чтобы сюжет был выше;
+   на ПК CSS всё равно показывает их содержимое целиком */
+function setPanelsForViewport() {
+  const wide = window.matchMedia('(min-width: 1000px)').matches;
+  const nav = document.getElementById('nav-panel');
+  if (nav) nav.open = true;                      // «Дни» — всегда раскрыты
+  ['party-panel', 'quests-panel'].forEach(id => {
+    const p = document.getElementById(id);
+    if (p) p.open = wide;                         // ПК — раскрыты, мобила — свёрнуты
+  });
+}
+setPanelsForViewport();
+window.addEventListener('resize', setPanelsForViewport);
 
 /* Лайтбокс: клик по картинке — увеличить */
 const lightbox = document.getElementById('lightbox');
