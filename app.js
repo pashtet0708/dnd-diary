@@ -167,11 +167,7 @@ function initScrollSpy() {
   const setActive = el => {
     chips.forEach(c => c.classList.remove('active'));
     const c = byId['#' + el.id];
-    if (c) {
-      c.classList.add('active');
-      // держим активный чип в зоне видимости узкого списка
-      if (c.scrollIntoView) c.scrollIntoView({ block: 'nearest' });
-    }
+    if (c) c.classList.add('active');
   };
   const obs = new IntersectionObserver(entries => {
     entries.forEach(en => { if (en.isIntersecting) setActive(en.target); });
