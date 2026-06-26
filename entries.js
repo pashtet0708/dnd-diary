@@ -49,7 +49,7 @@ const PARTY = [
   { name: "Ринн",    race: "Человек",    cls: "Следопыт",  color: "#4a6b4a" },
   { name: "Зэев",    race: "Тифлинг",    cls: "Паладин",   color: "#7a2f2f" },
   { name: "Эллумин", race: "Полуэльф",   cls: "Жрец",      color: "#2f5a7a" },
-  { name: "Лилит",   race: "Человек",    cls: "Волшебница", color: "#3a6a6a", joined: "присоединилась со 2-го дня" },
+  { name: "Лилит",   race: "Человек",    cls: "Волшебница", color: "#3a6a6a" },
 ];
 
 const ENTRIES = [
