@@ -116,7 +116,19 @@ body {
   border: 2px solid var(--gold);
   box-shadow: inset 0 0 12px rgba(0,0,0,.4), 0 2px 6px var(--shadow);
 }
-.hero-info { min-width: 0; }
+.hero-info { min-width: 0; flex: 1 1 auto; }
+.hero-icon {
+  flex: 0 0 auto;
+  align-self: center;
+  color: var(--gold-soft);
+  opacity: .85;
+}
+.hero-card:hover .hero-icon { color: var(--gold); opacity: 1; }
+.cls-ico {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
 .hero-name {
   font-family: 'Cinzel', serif;
   font-size: 19px;

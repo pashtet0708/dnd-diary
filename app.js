@@ -70,6 +70,28 @@ function renderEntry(e) {
     </article>`;
 }
 
+/* ===== Иконки классов (SVG, золотой контур) ===== */
+const CLASS_ICONS = {
+  "Инженер":
+    `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z"/>`,
+  "Колдун":
+    `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`,
+  "Следопыт":
+    `<path d="M7 4a11 11 0 0 1 0 16"/><path d="M7 4v16"/><path d="M5 12h15"/><path d="M17 9l3 3-3 3"/>`,
+  "Паладин":
+    `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v7"/><path d="M9 11h6"/>`,
+  "Жрец":
+    `<circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M3.5 3.5l1.8 1.8M18.7 18.7l1.8 1.8M1.5 12h2.5M20 12h2.5M3.5 20.5l1.8-1.8M18.7 5.3l1.8-1.8"/>`,
+  "Волшебница":
+    `<path d="M12 2.5l1.6 6.3 6.3 1.6-6.3 1.6L12 18.3l-1.6-6.3L4.1 10.4l6.3-1.6z"/><path d="M18.5 3.5l.5 1.8 1.8.5-1.8.5-.5 1.8-.5-1.8-1.8-.5 1.8-.5z"/>`,
+};
+function classIcon(cls) {
+  const inner = CLASS_ICONS[cls] || `<path d="M12 3l9 9-9 9-9-9z"/>`;
+  return `<svg class="cls-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" ` +
+         `stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">` +
+         `${inner}</svg>`;
+}
+
 /* ===== Отряд ===== */
 function renderParty() {
   const el = document.getElementById('party');
@@ -87,6 +109,7 @@ function renderParty() {
           <div class="hero-race">${escapeHtml(m.race)}</div>
           ${joined}
         </div>
+        <div class="hero-icon" title="${escapeHtml(m.cls)}">${classIcon(m.cls)}</div>
       </div>`;
   }).join('');
   el.innerHTML = `<h3 class="party-title">Отряд</h3><div class="party-grid">${cards}</div>`;
