@@ -16,7 +16,27 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--gold-soft) var(--bg-2);   /* Firefox: ползунок / дорожка */
+  scrollbar-width: thin;
+}
+
+/* ===== Стилизованные скроллбары (WebKit: Chrome/Edge/Safari) ===== */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track {
+  background: var(--bg-2);
+  border-left: 1px solid rgba(138,109,47,.25);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-soft), #5e4a1f);
+  border: 3px solid var(--bg-2);
+  border-radius: 7px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--gold), var(--gold-soft));
+}
+::-webkit-scrollbar-corner { background: var(--bg-2); }
 
 body {
   margin: 0;
