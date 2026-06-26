@@ -59,7 +59,7 @@ function renderEntry(e) {
   const date = e.date
     ? `<span class="date">${escapeHtml(e.date)}</span>` : '';
   return `
-    <article class="entry">
+    <article class="entry" id="day-${e.day}">
       <div class="meta">
         <span class="day-badge">День ${e.day}</span>
         ${date}
@@ -116,12 +116,48 @@ function renderParty() {
 }
 renderParty();
 
+/* ===== Журнал заданий / тайны ===== */
+function renderQuests() {
+  const el = document.getElementById('quests');
+  if (!el || typeof QUESTS === 'undefined' || !QUESTS.length) return;
+  const cards = QUESTS.map(q => {
+    const done = q.done === true;
+    const badge = done
+      ? `<span class="quest-badge done">раскрыто</span>`
+      : `<span class="quest-badge">открыто</span>`;
+    return `
+      <div class="quest-card${done ? ' is-done' : ''}">
+        <div class="quest-head">
+          <span class="quest-title">${escapeHtml(q.title)}</span>
+          ${badge}
+        </div>
+        <div class="quest-hint">${escapeHtml(q.hint || '')}</div>
+      </div>`;
+  }).join('');
+  el.innerHTML = `<h3 class="quests-title">Журнал заданий</h3>` +
+                 `<div class="quests-grid">${cards}</div>`;
+}
+renderQuests();
+
 const timeline = document.getElementById('timeline');
 if (!ENTRIES.length) {
-  timeline.innerHTML = '<div class="empty">Пока ни одной записи. Добавь первую в entries.js.</div>';
+  timeline.innerHTML = '<div class="empty">Пока ни одной записи. Добавь первую в story.js.</div>';
 } else {
   timeline.innerHTML = ENTRIES.map(renderEntry).join('');
 }
+
+/* ===== Навигация по дням (якоря) ===== */
+function renderDayNav() {
+  const el = document.getElementById('day-nav');
+  if (!el || !ENTRIES.length) return;
+  const links = ENTRIES.map(e =>
+    `<a class="day-chip" href="#day-${e.day}" title="${escapeHtml(e.title)}">` +
+    `<span class="day-chip-n">${e.day}</span>` +
+    `<span class="day-chip-t">${escapeHtml(e.title)}</span></a>`
+  ).join('');
+  el.innerHTML = `<span class="day-nav-label">Дни:</span>${links}`;
+}
+renderDayNav();
 
 /* Лайтбокс: клик по картинке — увеличить */
 const lightbox = document.getElementById('lightbox');

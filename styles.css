@@ -16,6 +16,8 @@
 
 * { box-sizing: border-box; }
 
+html { scroll-behavior: smooth; }
+
 body {
   margin: 0;
   background:
@@ -55,6 +57,146 @@ body {
   color: var(--gold-soft);
   font-size: 24px;
   margin-top: 18px;
+}
+
+/* ===== Навигация по дням (липкая) ===== */
+.day-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  overflow-x: auto;
+  background: rgba(20, 16, 12, .92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--gold-soft);
+  box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  scrollbar-width: thin;
+}
+.day-nav-label {
+  flex: 0 0 auto;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+.day-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
+  border: 1px solid rgba(138,109,47,.5);
+  border-radius: 20px;
+  color: var(--paper-2);
+  text-decoration: none;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.day-chip:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,161,74,.1);
+}
+.day-chip-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+}
+.day-chip-t {
+  font-size: 14px;
+  white-space: nowrap;
+}
+@media (max-width: 620px) {
+  .day-chip-t { display: none; }       /* на телефоне — только номера */
+  .day-chip { padding: 5px; border-radius: 50%; }
+}
+
+/* отступ якоря, чтобы липкая панель не накрывала заголовок дня */
+.entry { scroll-margin-top: 64px; }
+
+/* ===== Журнал заданий ===== */
+.quests {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 0;
+}
+.quests-title {
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  color: var(--gold);
+  font-size: 26px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+.quests-title::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 2px;
+  margin: 12px auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+}
+.quests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.quest-card {
+  padding: 16px 18px;
+  background: linear-gradient(180deg, rgba(201,161,74,.06), rgba(0,0,0,.20));
+  border: 1px solid rgba(138,109,47,.55);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 4px 14px var(--shadow);
+}
+.quest-card.is-done { opacity: .6; border-left-color: #3f6f3f; }
+.quest-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.quest-title {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  color: var(--gold);
+  line-height: 1.2;
+}
+.quest-badge {
+  flex: 0 0 auto;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+  color: var(--paper-2);
+  background: rgba(201,161,74,.16);
+  border: 1px solid var(--gold-soft);
+}
+.quest-badge.done {
+  color: #bfe6bf;
+  background: rgba(63,111,63,.2);
+  border-color: #3f6f3f;
+}
+.quest-hint {
+  font-size: 15px;
+  color: var(--paper-2);
+  opacity: .85;
+  font-style: italic;
+  line-height: 1.45;
 }
 
 /* ===== Отряд ===== */
