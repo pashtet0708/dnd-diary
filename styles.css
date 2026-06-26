@@ -88,7 +88,7 @@ body {
   gap: 28px;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 22px;
+  padding: 26px 22px 0;
   align-items: start;
 }
 .side-left   { grid-area: left; }
