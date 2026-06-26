@@ -32,7 +32,7 @@ body {
 /* ===== Шапка ===== */
 .hero {
   text-align: center;
-  padding: 70px 20px 40px;
+  padding: 30px 20px 20px;
   border-bottom: 1px solid var(--gold-soft);
   background:
     linear-gradient(180deg, rgba(201,161,74,.06), transparent);
@@ -40,7 +40,7 @@ body {
 .hero h1 {
   font-family: 'Cinzel', serif;
   font-weight: 700;
-  font-size: clamp(32px, 6vw, 56px);
+  font-size: clamp(26px, 4.5vw, 40px);
   letter-spacing: 2px;
   margin: 0;
   color: var(--gold);
@@ -50,13 +50,14 @@ body {
   font-style: italic;
   color: var(--paper-2);
   opacity: .8;
-  margin: 14px 0 0;
+  margin: 8px 0 0;
   letter-spacing: 1px;
+  font-size: 16px;
 }
 .hero .ornament {
   color: var(--gold-soft);
-  font-size: 24px;
-  margin-top: 18px;
+  font-size: 18px;
+  margin-top: 8px;
 }
 
 /* ===== Раскладка: слева дни, центр сюжет, справа отряд+тайны ===== */
@@ -142,7 +143,7 @@ body {
 
 .entry { scroll-margin-top: 18px; }
 
-/* ===== ПК: сайдбары липкие, панели всегда раскрыты ===== */
+/* ===== ПК: сайдбары липкие; панели сворачиваются по клику ===== */
 @media (min-width: 1000px) {
   .side {
     position: sticky;
@@ -151,21 +152,17 @@ body {
     overflow: auto;
     scrollbar-width: thin;
   }
-  .panel-title { cursor: default; pointer-events: none; }
-  .panel-title::after { display: none; }
-  .panel > div,
-  .panel > nav { display: block !important; }   /* показываем тело даже без [open] */
 }
 
-/* ===== Мобила/планшет: одна колонка, панели сворачиваются ===== */
+/* ===== Мобила/планшет: одна колонка, равные отступы между панелями ===== */
 @media (max-width: 999px) {
   .layout {
     grid-template-columns: 1fr;
     grid-template-areas: "left" "right" "center";
-    gap: 16px;
-    padding: 0 14px;
+    gap: 0;                 /* отступы задаёт margin-bottom самих панелей */
+    padding: 18px 14px 0;
   }
-  .side { margin-top: 16px; }
+  .side { margin-top: 0; }
 }
 
 /* ===== Журнал заданий ===== */

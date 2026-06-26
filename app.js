@@ -180,19 +180,20 @@ function initScrollSpy() {
 }
 initScrollSpy();
 
-/* мобильные панели Отряд/Тайны закрыты по умолчанию, чтобы сюжет был выше;
-   на ПК CSS всё равно показывает их содержимое целиком */
-function setPanelsForViewport() {
-  const wide = window.matchMedia('(min-width: 1000px)').matches;
+/* Состояние панелей по умолчанию для режима. Применяем при загрузке и при
+   СМЕНЕ режима ПК<->мобила (не на каждый ресайз — иначе «перебивало» бы
+   ручное сворачивание пользователем). */
+const wideMQ = window.matchMedia('(min-width: 1000px)');
+function applyPanelDefaults(wide) {
   const nav = document.getElementById('nav-panel');
-  if (nav) nav.open = true;                      // «Дни» — всегда раскрыты
+  if (nav) nav.open = true;                       // «Дни» открыты по умолчанию
   ['party-panel', 'quests-panel'].forEach(id => {
     const p = document.getElementById(id);
-    if (p) p.open = wide;                         // ПК — раскрыты, мобила — свёрнуты
+    if (p) p.open = wide;                          // ПК — открыты, мобила — свёрнуты
   });
 }
-setPanelsForViewport();
-window.addEventListener('resize', setPanelsForViewport);
+applyPanelDefaults(wideMQ.matches);
+wideMQ.addEventListener('change', e => applyPanelDefaults(e.matches));
 
 /* Лайтбокс: клик по картинке — увеличить */
 const lightbox = document.getElementById('lightbox');
