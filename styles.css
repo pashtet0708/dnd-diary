@@ -2,19 +2,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
 :root {
-  --bg:        #14100c;
-  --bg-2:      #1e1812;
-  --paper:     #efe2c8;
-  --paper-2:   #e6d6b6;
-  --ink:       #2b2218;
-  --ink-soft:  #4a3b28;
-  --gold:      #c9a14a;
-  --gold-soft: #8a6d2f;
-  --accent:    #7a2f2f;
-  --shadow:    rgba(0,0,0,.55);
+  --bg:        #091019;   /* полночная синь замёрзшего края */
+  --bg-2:      #0f1e2c;
+  --paper:     #e9f1f7;   /* холодный бледный веллум */
+  --paper-2:   #d2e0ec;
+  --ink:       #1a2734;   /* тёмный сланец — текст */
+  --ink-soft:  #3e5568;
+  --gold:      #a9cce4;   /* иней / серебристо-голубой акцент */
+  --gold-soft: #5f819c;   /* приглушённая сталь */
+  --accent:    #2f6187;   /* морозная синь (бейджи, буквица) */
+  --frost:     #dff0fb;
+  --shadow:    rgba(0,0,10,.6);
 }
 
 * { box-sizing: border-box; }
+
+/* ===== Снегопад (тонкий, поверх, не ловит клики) ===== */
+.snow, .snow::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+}
+.snow {
+  background-image:
+    radial-gradient(2.5px 2.5px at 30px 40px, rgba(255,255,255,.85), transparent),
+    radial-gradient(2px 2px at 130px 90px, rgba(255,255,255,.7), transparent),
+    radial-gradient(1.6px 1.6px at 200px 150px, rgba(255,255,255,.6), transparent),
+    radial-gradient(2px 2px at 90px 210px, rgba(255,255,255,.75), transparent);
+  background-size: 260px 260px;
+  opacity: .5;
+  animation: snowfall 14s linear infinite;
+}
+.snow::after {
+  background-image:
+    radial-gradient(1.6px 1.6px at 60px 20px, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.4px 1.4px at 160px 120px, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.8px 1.8px at 230px 200px, rgba(255,255,255,.55), transparent);
+  background-size: 200px 200px;
+  opacity: .4;
+  animation: snowfall 9s linear infinite;
+}
+@keyframes snowfall {
+  from { background-position: 0 0; }
+  to   { background-position: 0 260px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snow, .snow::after { animation: none; opacity: .25; }
+}
 
 html {
   scroll-behavior: smooth;
@@ -41,8 +77,10 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(1200px 600px at 50% -10%, #2a2016 0%, transparent 60%),
+    radial-gradient(1200px 620px at 50% -12%, #1a3550 0%, transparent 62%),
+    radial-gradient(900px 500px at 85% 110%, #12283c 0%, transparent 60%),
     var(--bg);
+  background-attachment: fixed;
   color: var(--paper);
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 19px;
@@ -63,8 +101,8 @@ body {
   font-size: clamp(26px, 4.5vw, 40px);
   letter-spacing: 2px;
   margin: 0;
-  color: var(--gold);
-  text-shadow: 0 2px 12px var(--shadow);
+  color: var(--frost);
+  text-shadow: 0 0 22px rgba(120,180,225,.35), 0 2px 12px var(--shadow);
 }
 .hero p {
   font-style: italic;
@@ -332,20 +370,20 @@ body {
 .entry {
   position: relative;
   background:
-    repeating-linear-gradient(0deg, rgba(0,0,0,.012) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(0deg, rgba(0,20,40,.012) 0 2px, transparent 2px 4px),
     linear-gradient(180deg, var(--paper), var(--paper-2));
   color: var(--ink);
   border-radius: 6px;
   padding: 34px 38px 30px;
   margin-bottom: 46px;
-  box-shadow: 0 12px 30px var(--shadow), inset 0 0 60px rgba(120,90,40,.12);
-  border: 1px solid #c9b079;
+  box-shadow: 0 12px 30px var(--shadow), inset 0 0 60px rgba(70,110,150,.14);
+  border: 1px solid #a9c2d6;
 }
 .entry::before {
   content: "";
   position: absolute;
   inset: 8px;
-  border: 1px solid rgba(138,109,47,.45);
+  border: 1px solid rgba(95,129,156,.5);
   border-radius: 4px;
   pointer-events: none;
 }
@@ -415,8 +453,8 @@ body {
   display: block;
   width: 100%;
   border-radius: 3px;
-  border: 5px solid #fbf5e6;
-  outline: 1px solid #b89a5e;
+  border: 5px solid #eef6fb;
+  outline: 1px solid #8fb0c8;
   box-shadow: 0 8px 20px var(--shadow);
   cursor: zoom-in;
   transition: transform .2s ease, box-shadow .2s ease;
@@ -433,7 +471,7 @@ body {
   text-align: center;
   line-height: 1.4;
 }
-.illus figcaption::before { content: "❧ "; color: var(--gold-soft); }
+.illus figcaption::before { content: "❄ "; color: var(--gold-soft); }
 
 /* плавающие — текст обтекает */
 .illus.right {
