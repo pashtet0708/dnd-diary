@@ -25,7 +25,8 @@ function normFigures(images) {
 }
 
 function figureHtml(f) {
-  const cls = f.full ? 'illus full' : `illus ${f.side}`;
+  let cls = f.full ? 'illus full' : `illus ${f.side}`;
+  if (f.full && f.uncrop) cls += ' uncrop';   // полная ширина без обрезки
   const cap = f.cap
     ? `<figcaption>${escapeHtml(f.cap)}</figcaption>` : '';
   return `<figure class="${cls}">` +
